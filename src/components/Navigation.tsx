@@ -23,7 +23,7 @@ export const Navigation = () => {
             <input
               placeholder="Search.."
               type="text"
-              className="w-[379px] h-[36px]"
+              className="w-[379px] h-[36px] outline-none"
             />
           </div>
         </div>

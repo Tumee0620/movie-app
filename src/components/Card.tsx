@@ -1,10 +1,14 @@
 export const Cardcontainer = ({ image, moviename }) => {
   return (
-    <div className="w-[230px] h-[439px] flex flex-col pl-[80px] pt-[32px]   ">
-      <div className="w-[230px] h-[340px] ">
-        <img className="flex h-[340px] w-full " src={image} alt="" />
+    <div className="w-[230px] h-[439px] flex flex-col pl-[80px] pt-[32px] ">
+      <div className="w-[230px] h-[340px]  ">
+        <img
+          className="flex h-[340px] w-full rounded-t-md"
+          src={image}
+          alt=""
+        />
       </div>
-      <div className="w-[230px] h-[89px] p-2 bg-stone-200 justify-center ">
+      <div className="w-[230px] h-[89px] p-2 bg-stone-200 justify-center rounded-b-md ">
         <div className="flex ">
           {" "}
           <img src="star.svg" alt="" />

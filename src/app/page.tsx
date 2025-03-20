@@ -7,8 +7,12 @@ import Image from "next/image";
 
 import { Cardcontainer } from "@/components/Card";
 import { Footer } from "@/components/Footer";
-
+import { Axios } from "axios";
 export default function Home() {
+  const client = axios.create({
+    baseURL:
+      "https://api.themoviedb.org/3/search/movie?query=Mark&language=en-US&page=1",
+  });
   return (
     <div>
       <Navigation />

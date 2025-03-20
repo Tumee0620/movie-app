@@ -40,7 +40,7 @@ export function CarouselComponent() {
       className="flex flex-col
     w-screen  "
     >
-      <Carousel className="w-screen">
+      <Carousel className="w-screen relative">
         <CarouselContent>
           {data.map((movie, index) => (
             <CarouselItem key={index}>
