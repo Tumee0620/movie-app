@@ -49,7 +49,7 @@ export function CarouselComponent() {
                   imgurl={movie.imgurl}
                   movie={movie.movie}
                   description={movie.description}
-                ></Ncrd>
+                />
               </div>
             </CarouselItem>
           ))}

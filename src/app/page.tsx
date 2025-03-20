@@ -1,3 +1,4 @@
+"use client";
 import { CarouselComponent } from "@/components/CarouselComponent";
 import { Navigation } from "@/components/Navigation";
 import { MdNavigateNext } from "react-icons/md";
@@ -7,54 +8,59 @@ import Image from "next/image";
 
 import { Cardcontainer } from "@/components/Card";
 import { Footer } from "@/components/Footer";
-import { Axios } from "axios";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 export default function Home() {
-  const client = axios.create({
-    baseURL:
-      "https://api.themoviedb.org/3/search/movie?query=Mark&language=en-US&page=1",
-  });
+  const [data, setData] = useState([]);
+  // const client = axios.create({
+  //   baseURL:
+  //     "https://api.themoviedb.org/3/search/movie?query=Mark&language=en-US&page=1",
+  // });
+  const fetchData = async () => {
+    const response = await axios.get(
+      "https://api.themoviedb.org/3/movie/popular?language=en-US&page=2&api_key=d67d8bebd0f4ff345f6505c99e9d0289"
+    );
+
+    setData(response.data.results);
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  console.log(data, "data");
+
   return (
     <div>
+      <iframe
+        width="560"
+        height="315"
+        src="https://www.youtube.com/embed/BD0bC2inuAc?si=k_dBJtg3uguksxcb"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+      ></iframe>
       <Navigation />
-      <CarouselComponent></CarouselComponent>
-      <div className="flex justify-between px-[80px] pt-[52px]">
-        <p className="font-medium font-[24px]">Upcoming</p>
-        <button className="flex items-center gap-2">
-          <p>See more</p>
-          <MdNavigateNext className="size-6" />
-        </button>
-      </div>
-      <div className="flex space-x-12  ">
-        <Cardcontainer
-          image={
-            "https://s3-alpha-sig.figma.com/img/6415/2808/0ffbeccc1a7cdd3a5199e0755d66e253?Expires=1743379200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=fCQufcR3am1qiooLQaqM9Q41NfwFPOLbPAZzQ3vVA3ubkL8vXYVlOARoxW3mVGAKW10Or4rEsgbn1We-Uv7tTuXNoCKZySv1bpIdwl683L-HGFQCh2aolanzjTygbJRG8oxQTaOW~juemQwUKxKlVfDrku7eyKv7kCfb8GjtOtzOXMjPUGfQ1cPuDBT-lQ66x3KsLKXsEsvNyS04Nl-XgtKjiFq3J8vWz--Y7SKpB16xhs5medKqDLyR2gKclKWDTQHp2j3nb5xDgNcjumvVKF8BAMHiDyS~EKQBNdHZif7FuEWg4eIGY97oHzVI0GbCsUbWHh0mcj~FV-FZhmU~fQ__"
-          }
-          moviename={"Dear Santa"}
-        ></Cardcontainer>
-        <Cardcontainer
-          image={
-            "https://s3-alpha-sig.figma.com/img/4b08/7764/bc03cf6c5fe844d5ce89f9658466dfef?Expires=1743379200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=VxBf6a0UyNNWI2Ef8E9MKlxZyc7jcRh-qGeLDOkVM5XhV1f~sVYxwSFoidjGrQXETt45YTjmIScYqZSvyuzwmi4qgBT5YAPnS9NSSjWBqWpSONfypvg3GL6l6SDn2mxOqJ1hlrtm6BSm8Dxh8Is5UH3D96O91AeEBtziVQkE8UXZxn51XGJbKR8haCM1Y9G~649PPFyWcnVO4BZHnDC31L8sm8a11VDPZDoo4LaP5cLeHgWkb4MO3DeHYsIqG-xMZ4B9yy5ffhL86UEuULXd5okztHFp1lEGdKTrARjAVR-4~5O5RGFjsm1Hr7G9ACqNPXJZD9dtt8ixIK8w0D7Zlw__"
-          }
-          moviename={"How To Train Your Dragon Live Action"}
-        ></Cardcontainer>
-        <Cardcontainer
-          image={
-            "https://s3-alpha-sig.figma.com/img/7aa1/1575/96c5c5026e3cccbd4a9ca91b9d63dc7a?Expires=1743379200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=TVUi4evCaWv5DXCkFcCXhK5a7XqGLRmAZ46uJH1yM-Fvt~EQO~x3pvBs-s1NXOhAYDjpUlbOSlxEvu0qGD57d4VrRTCnAduwbs0mxFf0XrFpCnOA5Yt0Z3zOCtbnrr4uPJc9aI~O75AITvlCwxdGsFkTgJfdO9nna51yGU-NKXwsjijsbuumFxUJmGULzs5dUbvEW-zBHN2ndMv~eM2QSY0CidjLVlvxQ2il8o8ppwYjVcrskJdifcewBLBgDJTkSID-kb~gxp2lj1Kt75UebcktxFj6yKftUrfgywB1-slsmVEV0J1DftM00LXqF9Y2T1EGuq8XFxug-QkftbReyg__"
-          }
-          moviename={"Alien Romulus"}
-        ></Cardcontainer>
-        <Cardcontainer
-          image={
-            "https://s3-alpha-sig.figma.com/img/a2ea/3dd2/e396dc1c5e4ace3bda976b474aaef0b3?Expires=1743379200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=LmSRrZdSQ4fvHueiig5LxUblDy9QDnu6n0E9qjEYU4SB1cC4ZxO0nfnzoSC5nPJkfjMlrHY1SdUB6~Eb0heV1S31tD~18qCRsatCoxrbEFMGCmeTXRvtoU~S6ICXR6bplFR45mNqSKQDvUNEkIHEYMF~h0ryW9VulLl9XoZxBQy~z113TYtY9aYz7ATv~xiwah4fux~v7jAZbGzBF1Xv9uEx4IrN-zV0HD8lS9mA704MwbTY3V7eOie9kKJzEErMVaI5n6zP~b1GkYhAH7kolvToDYZINF6Z2~iL~M7YVfB8V2vVuqkM7nqXzqKRjMCFjUc0u0sIfhOMwehMnwwh-w__"
-          }
-          moviename={"From the Ashes"}
-        ></Cardcontainer>
-        <Cardcontainer
-          image={
-            "https://s3-alpha-sig.figma.com/img/4225/7c9e/0fafe04642928fbdc70a93ae0f01002d?Expires=1743379200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=cbb2m1HJmmL7XhKZeu0jrrb-Vzvg8huUbr6E6Abr6tD8f7srS6WVZMaBJyOs1XPkOFTFu-G6O21HG4dUFsnqeqvu-046LbBZcBPe54gSKZMRLhFz40LI0RYs5ZBxMZ~MLIbSoLj-u1c~vymdOCj6RQz-UXndfwRAnHB1r5fDhUDX4MPuvVK5yk5fj2i1iYl-g19Qa4q6aof6xsuLjVKfJyK3-ruSMev5YhAH1z26Z--4wtBHMaJm98J3AjnmXG3srTeVUMimrobyQ4pFtg8L9IQUijLSoFovNwLAfz6Q5DtAz~Ml~V5aY64jdFgOFLv-c0-M8WWT8iuQXYnE3Q8Znw__"
-          }
-          moviename={"Space Dogg"}
-        ></Cardcontainer>
+      <a href="https://www.google.com?variableName=value">click me</a>
+      <CarouselComponent />
+      <div>
+        <div className="flex justify-between px-[80px] pt-[52px]">
+          <p className="font-medium font-[24px]">Upcoming</p>
+          <button className="flex items-center gap-2">
+            <p>See more</p>
+            <MdNavigateNext className="size-6" />
+          </button>
+        </div>
+        <div className="flex space-x-12  ">
+          {data.map((data) => (
+            <Cardcontainer
+              image={data.poster_path || data.backdrop_path}
+              movieName={data.title}
+            />
+          ))}
+        </div>
       </div>
       <div className="flex space-x-12 ">
         <Cardcontainer
@@ -230,7 +236,7 @@ export default function Home() {
           moviename={"Terminator 2: Judgement Day"}
         ></Cardcontainer>
       </div>
-      <Footer></Footer>
+      <Footer />
     </div>
   );
 }
