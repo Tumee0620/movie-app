@@ -13,7 +13,6 @@ import Image from "next/image";
 export default function Home() {
   return (
     <div className="w-full">
-      <Navigation />
       <NowPlaying />
       <MovieType genre="Upcoming" />
       <UpcomingSection />
@@ -21,7 +20,6 @@ export default function Home() {
       <PopularSection />
       <MovieType genre="Top Rated" />
       <TopRatedSection />
-      <Footer />
     </div>
   );
 }

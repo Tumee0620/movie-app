@@ -4,7 +4,7 @@ import { FaStar } from "react-icons/fa6";
 import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 
-export const MovieCard = ({
+export const CardTwoFor = ({
   rate,
   title,
   src,
@@ -14,15 +14,20 @@ export const MovieCard = ({
   rate: string;
   title: string;
   src: string;
+  results: string;
 }) => {
   return (
-    <div onClick={onClick} className="pl-8">
-      <div className=" px-4 pr-6 pt-10 ">
-        <div className=" h-[439px] w-[230px] rounded-md flex flex-col ">
-          <div className=" bg-gray-400 w-[230px] h-[340px]">
+    <div
+      onClick={() => {
+        onClick();
+      }}
+    >
+      <div className=" pt-14 flex flex-wrap">
+        <div className=" h-[331px] w-[200px] rounded-md flex flex-col ">
+          <div className=" bg-gray-400 w-[170px] h-[200px]">
             <img src={src} alt="" className="w-full h-full object-cover" />
           </div>
-          <div className="h-[119px] w-[230px] bg-[#F4F4F5] items-center">
+          <div className="h-[90px] w-[170px] bg-[#F4F4F5] items-center">
             <div className="flex px-3 pt-3 items-center">
               <FaStar color="yellow" fill="yellow" />
               {rate}

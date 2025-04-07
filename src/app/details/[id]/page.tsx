@@ -2,10 +2,10 @@
 import { Navigation } from "@/components/Navigation";
 import axios from "axios";
 import { log } from "console";
-import { StarIcon } from "lucide-react";
-import { useParams } from "next/navigation";
+import { StarIcon, Vote } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Badge } from "@/components/ui/badge";
+
 import { GrFormNextLink } from "react-icons/gr";
 import { CiPlay1 } from "react-icons/ci";
 import {
@@ -17,10 +17,35 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { MovieType } from "@/components/Movietype";
+import { MovieCard } from "@/components/MovieCard";
+import { title } from "process";
+import { Footer } from "@/components/Footer";
 
 function NextPage() {
   const params = useParams();
+  const [similarMovieData, setSimilarMovieData] = useState([]);
+  const [creditsDetail, setCreditsDetail] = useState([]);
+  const [cast, setCast] = useState([]);
+  const user = useRouter();
+  const ToggleOnClick = (id: string) => {
+    user.push(`/details/${id}`);
+  };
+  const getCreditData = async () => {
+    const starsName = await axios.get(
+      `https://api.themoviedb.org/3/movie/${params.id}/credits?language=en-US&api_key=d67d8bebd0f4ff345f6505c99e9d0289`
+    );
 
+    setCreditsDetail(starsName.data.crew);
+    setCast(starsName.data.cast);
+  };
+  const getSimilarData = async () => {
+    const avah = await axios.get(
+      `https://api.themoviedb.org/3/movie/${params.id}/similar?language=en-US&page=1&api_key=d67d8bebd0f4ff345f6505c99e9d0289`
+    );
+    console.log(avah, "start");
+
+    setSimilarMovieData(avah.data.results);
+  };
   const handleOnClick = () => {};
   const [data, setData] = useState([]);
   const [trailer, setTrailer] = useState();
@@ -41,14 +66,15 @@ function NextPage() {
 
   useEffect(() => {
     getFetchData();
-
+    getSimilarData();
     getFetchData1();
+    getCreditData();
   }, []);
-  console.log(data);
+
+  console.log(similarMovieData, "data");
 
   return (
-    <div>
-      <Navigation />
+    <div className="w-full h-full">
       <div className="flex justify-center">
         <div className="w-[1080px] flex flex-col">
           <div className="flex justify-between ">
@@ -75,7 +101,7 @@ function NextPage() {
           </div>
           <div>
             <div>
-              <div className=" flex justify-between space-x-2">
+              <div className=" flex w-full justify-between space-x-5">
                 <img
                   className="w-[290px] h-[428px]"
                   src={`https://image.tmdb.org/t/p/original${data?.poster_path}`}
@@ -87,7 +113,7 @@ function NextPage() {
                   alt=""
                 ></img>
                 <span>
-                  <button className="items-center absolute bottom-57 left-157 text-white flex gap-2">
+                  <button className="items-center absolute bottom-40  left-140 text-white flex gap-2">
                     <Dialog>
                       <DialogTitle className="hidden"></DialogTitle>
                       <DialogTrigger>
@@ -115,26 +141,72 @@ function NextPage() {
               </div>
             </div>
           </div>
-          <div className="flex gap-2 pt-[20px]">
-            {/* {data.genres.map((value: any, index: number) => {
-              return <Badge key={index}>{value.name}</Badge>;
-            })} */}
-          </div>
+
           <div className="flex flex-col gap-4">
             <p>{data.overview}</p>
-            <p className="font-medium">
-              Director <p>{}</p>
-            </p>
-            <p className="font-medium">
-              Writers <p>{}</p>
-            </p>
-            <p className="font-medium">
-              Stars <p>{}</p>
+            <div className="flex flex-row gap-5">
+              <p className="font-medium">Director :</p>
+              <div className="flex gap-2">
+                {creditsDetail
+                  .filter((value) => value.job === "Director")
+                  .map((value) => (
+                    <p
+                      className="flex font-normal w-fit self-stretch text-black"
+                      key={value.id}
+                    >
+                      {value.name}
+                    </p>
+                  ))}
+              </div>
+            </div>
+            <div className="flex gap-5">
+              <p className="font-medium ">Writers :</p>
+              <div className="flex gap-2">
+                {creditsDetail
+                  .filter((value) => value.department === "Writing")
+                  .slice(0, 5)
+                  .map((value) => (
+                    <p
+                      className="flex font-normal w-fit self-stretch text-black"
+                      key={value.id}
+                    >
+                      {value.name}
+                    </p>
+                  ))}
+              </div>
+            </div>
+            <p className="font-medium flex gap-5">
+              Stars :
+              <div className="flex gap-2">
+                {cast.slice(0, 5).map((value) => (
+                  <p
+                    className="flex font-normal w-fit self-stretch text-black"
+                    key={value.id}
+                  >
+                    {value.name}
+                  </p>
+                ))}
+              </div>
             </p>
           </div>
 
           <MovieType genre="More like this" />
         </div>
+      </div>
+      <div className="  flex flex-wrap">
+        {similarMovieData.slice(0, 5)?.map((similarMovie) => {
+          return (
+            <MovieCard
+              className={"h-[439px] w-[230px]"}
+              onClick={() => {
+                ToggleOnClick(similarMovie.id);
+              }}
+              rate={similarMovie?.vote_average}
+              src={`https://image.tmdb.org/t/p/original${similarMovie?.poster_path}`}
+              title={similarMovie?.original_title}
+            />
+          );
+        })}
       </div>
     </div>
   );
