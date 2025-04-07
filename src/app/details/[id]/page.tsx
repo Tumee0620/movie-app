@@ -22,6 +22,15 @@ import { title } from "process";
 import { Footer } from "@/components/Footer";
 
 function NextPage() {
+  type Item = {
+    title: string;
+    // other properties if needed
+  };
+  const items: Item[] = [];
+  const items = [{ title: "Item 1" }, { title: "Item 2" }]; // TypeScript can usually infer the type here
+  console.log(items[0]?.title);
+
+  console.log(items[0].title);
   const params = useParams();
   const [similarMovieData, setSimilarMovieData] = useState([]);
   const [creditsDetail, setCreditsDetail] = useState([]);
